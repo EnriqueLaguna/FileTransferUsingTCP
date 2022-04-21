@@ -43,7 +43,6 @@ with open(filename, "wb") as f:
             # file transmitting is done
             break
         # write to the file the bytes we just received
-        progress.update(len(bytes_read))
         f.write(bytes_read)
 # close the client socket
 client_socket.close()
