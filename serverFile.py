@@ -1,6 +1,5 @@
 import socket
 import os
-import tqdm
 # device's IP address
 SERVER_HOST = "127.0.0.1"
 SERVER_PORT = 65432
@@ -16,9 +15,7 @@ s = socket.socket()
 s.bind((SERVER_HOST, SERVER_PORT))
 
 # enabling our server to accept connections
-# 5 here is the number of unaccepted connections that
-# the system will allow before refusing new connections
-s.listen(5)
+s.listen()
 print(f"[*] Listening as {SERVER_HOST}:{SERVER_PORT}")
 
 # accept connection if there is any
@@ -30,7 +27,6 @@ print(f"[+] {address} is connected.")
 # receive using client socket, not server socket
 received = client_socket.recv(BUFFER_SIZE).decode()
 filename, filesize = received.split(SEPARATOR)
-# print(f'Filename: {filename}')
 # remove absolute path if there is
 filename = "D:\ITESO\Semestre 8\SeguridadEnRedes\cripto\SendFileTCP/fileToWrite.csv"
 # convert to integer
@@ -38,7 +34,6 @@ filesize = int(filesize)
 
 # start receiving the file from the socket
 # and writing to the file stream
-progress = tqdm.tqdm(range(filesize), f"Receiving {filename}", unit="B", unit_scale=True, unit_divisor=1024)
 with open(filename, "wb") as f:
     while True:
         # read 1024 bytes from the socket (receive)
